@@ -30,3 +30,26 @@ class HTMLNode():
     
     def __repr__(self):
         return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
+
+
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props=None):
+        '''
+        Constructor for LeafNode. 
+        A LeafNode is a type of HTMLNode that represents a single HTML tag with no children.
+        
+        :param tag: A string representing the HTML tag name (e.g. "p", "a", "h1", etc.)
+        :param value: A string representing the value of the HTML tag (e.g. the text inside a paragraph)
+        :param props: A dictionary of key-value pairs representing the attributes of the HTML tag
+        '''
+        super().__init__(tag, value, None, props)
+
+    def to_html(self):
+        if self.value is None:
+            raise ValueError("leaf node must have value")
+        if self.tag is None:
+            return self.value
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+    
+    def __repr__(self):
+        return f"LeafNode({self.tag}, {self.value}, {self.props})"
