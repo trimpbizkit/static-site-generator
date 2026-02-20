@@ -1,13 +1,13 @@
 import unittest
 
-from block_functions import (
+from markdown_blocks import (
     markdown_to_blocks,
     block_to_block_type,
     markdown_to_html_node,
     BlockType
 )
 
-class TestBlockFunctions(unittest.TestCase):
+class TestMarkdownBlocks(unittest.TestCase):
     def test_markdown_to_blocks(self):
         md = """
 This is **bolded** paragraph

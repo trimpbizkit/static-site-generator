@@ -1,4 +1,5 @@
 import re
+
 from textnode import TextNode, TextType
 
 def text_to_textnodes(text):
@@ -17,7 +18,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             split_nodes = []
             split_text = node.text.split(delimiter)
             if len(split_text) % 2 == 0:
-                raise Exception("valid closing delimiters not found, invalid markdown")
+                raise Exception("invalid markdown, inline section not closed")
             for i in range(len(split_text)):
                 if split_text[i] == "":
                     continue
