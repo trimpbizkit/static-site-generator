@@ -18,7 +18,7 @@ def extract_title(markdown):
     return DEFAULT_TITLE
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     '''
     Read the markdown file at from_path and store the contents in a variable.
     Read the template file at template_path and store the contents in a variable.
@@ -40,13 +40,15 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown_content)
     template = template.replace(r"{{ Title }}", title, 1)
     template = template.replace(r"{{ Content }}", html, 1)
+    template = template.replace('href="/', f'href="{basepath}')
+    template = template.replace('src="/', f'src="{basepath}')
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
         os.makedirs(dest_dir_path, exist_ok=True)
     with open(dest_path, 'w') as file:
         file.write(template)
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     '''
     Crawl every entry in the content directory
     For each markdown file found, generate a new .html file using the same template.html.
@@ -58,7 +60,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         if os.path.isfile(from_path):
             if Path(dest_path).suffix == ".md":
                 dest_path = Path(dest_path).with_suffix(".html")
-                generate_page(from_path, template_path, dest_path)
+                generate_page(from_path, template_path, dest_path, basepath)
         else:
-            generate_pages_recursive(from_path, template_path, dest_path)
+            generate_pages_recursive(from_path, template_path, dest_path, basepath)
     
